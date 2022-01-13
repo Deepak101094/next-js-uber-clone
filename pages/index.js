@@ -9,8 +9,10 @@ import Link from "next/link";
 export default function Home() {
   return (
     <Wrapper>
+      {/* Map box */}
       <Map />
       <ActionItems>
+        {/* Header */}
         <Header>
           <UberLogo src="https://i.ibb.co/84stgjq/uber-technologies-new-20218114.jpg" />
           <Profile>
@@ -18,6 +20,7 @@ export default function Home() {
             <UserImage src="https://media.istockphoto.com/photos/millennial-male-team-leader-organize-virtual-workshop-with-employees-picture-id1300972574?b=1&k=20&m=1300972574&s=170667a&w=0&h=2nBGC7tr0kWIU8zRQ3dMg-C5JLo9H2sNUuDjQ5mlYfo=" />
           </Profile>
         </Header>
+        {/* Action Buttons */}
         <ActionButtons>
           <Link href="/Search">
             <ActionButton>
@@ -34,6 +37,7 @@ export default function Home() {
             Reserve
           </ActionButton>
         </ActionButtons>
+        {/* bottom input box */}
         <InputButton>Where to?</InputButton>
       </ActionItems>
     </Wrapper>
