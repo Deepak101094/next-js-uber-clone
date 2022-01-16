@@ -1,12 +1,33 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import Head from "next/head";
 import Image from "next/image";
 import tw from "tailwind-styled-components";
 import mapboxgl from "mapbox-gl";
 import Map from "./components/Map";
 import Link from "next/link";
+import { auth, provider } from "../firebase";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 
 export default function Home() {
+  const [user, setUser] = useState(null);
+  const router = useRouter();
+  console.log(user);
+  useEffect(() => {
+    return onAuthStateChanged(auth, (user) => {
+      console.log(user);
+      if (user) {
+        setUser({
+          name: user.displayName,
+          photo: user.photoURL,
+        });
+      } else {
+        setUser(null);
+        router.push("/Login");
+      }
+    });
+  }, []);
+
   return (
     <Wrapper>
       {/* Map box */}
@@ -16,8 +37,9 @@ export default function Home() {
         <Header>
           <UberLogo src="https://i.ibb.co/84stgjq/uber-technologies-new-20218114.jpg" />
           <Profile>
-            <Name>Deepak Pandey</Name>
-            <UserImage src="https://media.istockphoto.com/photos/millennial-male-team-leader-organize-virtual-workshop-with-employees-picture-id1300972574?b=1&k=20&m=1300972574&s=170667a&w=0&h=2nBGC7tr0kWIU8zRQ3dMg-C5JLo9H2sNUuDjQ5mlYfo=" />
+            <Name> {user && user.name} </Name>
+            {/* <h5>{user && user?.displayName} </h5> */}
+            <UserImage src={user && user.photo} onClick={() => signOut(auth)} />
           </Profile>
         </Header>
         {/* Action Buttons */}
@@ -65,11 +87,11 @@ flex items-center
 `;
 
 const Name = tw.div`
- mr-4 w-20 text-sm
+ mr-4 w-20 text-sm 
 `;
 
 const UserImage = tw.img`
-h-12 w-12 rounded-full border-gray-200 p-px
+h-12 w-12 rounded-full border border-gray-200 p-px  cursor-pointer
 `;
 
 const ActionButtons = tw.div`
